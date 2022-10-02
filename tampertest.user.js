@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         test
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      2.0
 // @run-at       document-end
 // @description  test
 // @author       Steffsot
@@ -10,3 +10,4 @@
 // ==/UserScript==
 
 console.log('bruh');
+console.log('updated');
