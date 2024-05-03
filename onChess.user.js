@@ -765,19 +765,19 @@ console.log("caught error", error);
             let a = {};
             let s = "";
             let changed = false;
-
-
-
+        
+        
+        
             function bypassConvert(n) {
                 /*let middle = Math.ceil(n.length / 2);
                 n = n.slice(0, middle) + " " + n.slice(middle);
                 return n;*/
-
+        
                 for (var t = 0; t < n.length; t++)
                     for (var r in letterMap) n.charAt(t).toLowerCase() == r && (n = n.substring(0, t) + letterMap[r] + n.substring(t + 1, n.length));
                 return n;
             }
-
+        
             a.goodPatterns = [".*психу.*", ".*страхуй.*", ".*к(о|а)манд.*", ".*истр(е|и)блять.*", ".*л(о|а)х(о|а)трон.*", ".*(о|а)ск(о|а)рблять.*", "хул(е|и)ган", ".*м(а|о)нд(а|о)рин.*", ".*р(а|о)ссл(а|о)блять.*", ".*п(о|а)тр(е|и)блять.*", ".*@.*\\.(ру|сом|нет)$"];
             a.goodWords = ["дезмонда", "застрахуйте", "одномандатный", "подстрахуй", "психуй"];
             a.badPatterns = ["^(о|а)н(о|а)нист.*", "^лошар.*", "^к(а|о)злина$", "^к(о|а)зел$", "^сволоч(ь|ъ|и|уга|ам|ами).*", "^лох[уеыаоэяию].*", ".*урод(ы|у|ам|ина|ины).*", ".*бля(т|д).*", ".*гандо.*", "^м(а|о)нд(а|о).*", ".*сперма.*", ".*[уеыаоэяию]еб$", "^сучк(а|у|и|е|ой|ай).*", "^придур(ок|ки).*", "^д(е|и)би(л|лы).*", "^сос(ать|и|ешь|у)$", "^залуп.*", "^муд(е|ил|о|а|я|еб).*", ".*шалав(а|ы|ам|е|ами).*", ".*пр(а|о)ст(и|е)т(у|е)тк(а|и|ам|е|ами).*", ".*шлюх(а|и|ам|е|ами).*", ".*ху(й|и|я|е|л(и|е)).*", ".*п(и|е|ы)зд.*", "^бл(я|т|д).*", "(с|сц)ук(а|о|и|у).*", "^еб.*", ".*(д(о|а)лб(о|а)|разъ|разь|за|вы|по)ебы*.*", ".*пид(а|о|е)р.*", ".*хер.*"];
@@ -788,8 +788,8 @@ console.log("caught error", error);
                     return true;
                 return false;
             }
-
-
+        
+        
             function isInGoodWords(n) {
                 for (var t = 0; t < a.goodWords.length; t++)
                     if (n == a.goodWords[t])
@@ -803,7 +803,7 @@ console.log("caught error", error);
                 }
                 return !1
             }
-
+        
             function isInBadPatterns(n) {
                 for (var t = 0; t < a.badPatterns.length; t++) {
                     if (new RegExp(a.badPatterns[t]).test(n))
@@ -811,9 +811,9 @@ console.log("caught error", error);
                 }
                 return !1
             }
-
-
-
+        
+        
+        
             for (var t = text.split(" "), o = 0; o < t.length; o++) {
                 if (containsMat(t[o].toLowerCase())) {
                     changed = true;
@@ -822,7 +822,7 @@ console.log("caught error", error);
                 else
                     s += t[o] + " ";
             }
-
+        
             if (changed)
                 return chatBypass(s);
             else return s.trimEnd();
@@ -1504,7 +1504,6 @@ console.log("caught error", error);
                         slvm.delete();
                 });
                 //ava
-                //ava
                 new Par({
                     x: 0,
                     y: 370,
@@ -1518,7 +1517,7 @@ console.log("caught error", error);
                 });
                 var avain = document.createElement("input");
                 i.appendChild(avain);
-                avain.maxLength = 120, avain.placeholder = "Введите ссылку...", avain.id = "avalink", avain.className = "input", avain.style.position = "absolute", avain.style.top = '463px', avain.style.left = '95px', avain.value = GM_getValue("avaLink", "");
+                avain.maxLength = 500, avain.placeholder = "Введите ссылку...", avain.id = "avalink", avain.className = "input", avain.style.position = "absolute", avain.style.top = '463px', avain.style.left = '95px', avain.value = GM_getValue("avaLink", "");
                 new Button({
                     x: 410,
                     y: 381,
@@ -1537,7 +1536,7 @@ console.log("caught error", error);
                 });
             })
         }
-
+        
         function changeAvatar(link){
             if (link == "") return;
             let query = "";
