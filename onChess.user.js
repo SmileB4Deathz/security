@@ -49,6 +49,7 @@
         var declineDraw = GM_getValue("declineDrawValue", false);
         var bypassCensor = GM_getValue("bypassCensorValue", false);
         var slivMenu = GM_getValue("slivMenuValue", false);
+        var avaLink = GM_getValue("avaLink", "");
         var userTint = 0;
         var oldAnim, oldGetInfoGameResp, oldSpectatorGameResp, oldAddMes, oldDiv, oldPic, oldGame, oldAddWindClan, oldPreloadImages, oldDraw, slvm, win10fix, checkLoad, analysisButton;
         //horvig win10 fix
@@ -75,6 +76,7 @@
                 chatFix();
                 clearInterval(checkLoad); //stops checking only after the listeners are loaded
                 showWhenBlocked();
+                changeAvatar(avaLink);
                 hookPic();
                 GM_addStyle(my_css);
                 //check();
@@ -1501,7 +1503,61 @@ console.log("caught error", error);
                     else
                         slvm.delete();
                 });
+                //ava
+                //ava
+                new Par({
+                    x: 0,
+                    y: 370,
+                    text: "аватарка: ",
+                    textAlign: "left",
+                    width: 200,
+                    fontName: "Segoe",
+                    fontSize: 15,
+                    color: "#00f279",
+                    toDiv: i
+                });
+                var avain = document.createElement("input");
+                i.appendChild(avain);
+                avain.maxLength = 120, avain.placeholder = "Введите ссылку...", avain.id = "avalink", avain.className = "input", avain.style.position = "absolute", avain.style.top = '463px', avain.style.left = '95px', avain.value = GM_getValue("avaLink", "");
+                new Button({
+                    x: 410,
+                    y: 381,
+                    float: "left",
+                    width: 150,
+                    height: 30,
+                    label: "применить",
+                    color: "#73C773",
+                    fontSize: 17,
+                    toDiv: i
+                }, function() {
+                    var input = document.getElementById('avalink');
+                    avaLink = input.value;
+                    GM_setValue("avaLink", avaLink);
+                    changeAvatar(avaLink);
+                });
             })
+        }
+
+        function changeAvatar(link){
+            if (link == "") return;
+            let query = "";
+            const regex = /userPic=(.*?)&/gm;
+            const str = socket.query;
+            while ((m = regex.exec(str)) !== null) {
+                // This is necessary to avoid infinite loops with zero-width matches
+                if (m.index === regex.lastIndex) {
+                    regex.lastIndex++;
+                }
+                // The result can be accessed through the `m`-variable.
+                m.forEach((match, groupIndex) => {
+                    console.log(`${match}`);
+                });
+                query = socket.query.replace(m[1], encodeURIComponent(link));
+            }
+            socket.disconnect();
+            userPic = link;
+            socket.io.opts.query = query;
+            socket.connect();
         }
 
         function check() {
