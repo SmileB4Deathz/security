@@ -98,6 +98,7 @@
                 removeNoselect();
                 //better chat bypass
                 isEmpty = function() {return false}
+                smallTweaks();
             }
         }
 
@@ -122,6 +123,10 @@
             temp = temp.replace(match, replace);
             Chat = new Function(temp.substring(temp.indexOf('{') + 1, temp.lastIndexOf('}')));
             console.log('Hooked Chat');
+        }
+
+        function smallTweaks(){
+            //isVk = isOk = true;
         }
 
         //color chat. -2 full, 0 none (-1 half, 1+ number of letters) not implemented
@@ -1035,10 +1040,14 @@ console.log("caught error", error);
         }
 
         function _addUserInfo() {
+            const _isVk = isVk;
+            const _isOk = isOk;
             let oldWindProfile = addWindProfile;
+            let oldRemoveWindProfile = removeWindProfile;
             addWindProfile = function (e) {
-                e.firstName = sanitize(e.firstName);
-                e.lastName = sanitize(e.lastName);
+                isOk = isVk = true;
+                //e.firstName = sanitize(e.firstName);
+                //e.lastName = sanitize(e.lastName);
 
                 oldWindProfile.apply(this, arguments);
                 var infoDiv = $("div[style='position: absolute; margin-left: 0px; margin-top: 0px;']")[0];
@@ -1059,6 +1068,12 @@ console.log("caught error", error);
                     color: "#f5f542",
                     toDiv: infoDiv
                 })
+            }
+
+            removeWindProfile = function (){
+                oldRemoveWindProfile.apply(this, arguments);
+                isVk = _isVk;
+                isOk = _isOk;
             }
         }
 
