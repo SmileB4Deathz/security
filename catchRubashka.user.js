@@ -133,6 +133,8 @@ var wsHook = {};
                     break;
                 }
                 case "FillShopTab": {
+                    if(caught)
+                        break;
                     const shopItems = data.arguments[0];
                     console.log(shopItems);
                     for (const shopItem of shopItems) {
