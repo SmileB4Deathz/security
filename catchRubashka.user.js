@@ -133,10 +133,13 @@ var wsHook = {};
                     break;
                 }
                 case "FillShopTab": {
-                    if(caught)
+                    if (caught) {
+                        infoDiv.innerText = `Обновлении магазина: ${obnovas}
+                            Рубашка возможно поймана`;
                         break;
+                    }
                     const shopItems = data.arguments[0];
-                    console.log(shopItems);
+                    //console.log(shopItems);
                     for (const shopItem of shopItems) {
                         if (shopItem.Type == 2 && (shopItem.price_joker == 1200 || shopItem.price_joker == 1400) && id == 5000000000096247) {
                             const packetToSend = {
@@ -146,9 +149,7 @@ var wsHook = {};
                                 type: 1
                             }
                             ws.send(JSON.stringify(packetToSend) + "");
-                            console.log("Caught rubashka");
                             caught = true;
-                            break;
                         }
                     }
                     if (!caught) {
@@ -165,11 +166,10 @@ var wsHook = {};
                             obnovas++;
                             infoDiv.innerText = `Обновлении магазина: ${obnovas}
                             Рубашка ${caught ? "" : "не"} поймана`;
-                        }, 1e3);
-
-                        console.log("No rubashka");
-                        //notification.play();
+                        }, 900);
+                        //console.log("No rubashka");
                     }
+                    break;
                 }
             }
         }
