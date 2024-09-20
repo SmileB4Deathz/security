@@ -166,7 +166,7 @@ var wsHook = {};
                             obnovas++;
                             infoDiv.innerText = `Обновлении магазина: ${obnovas}
                             Рубашка ${caught ? "" : "не"} поймана`;
-                        }, 900);
+                        }, 1e3);
                         //console.log("No rubashka");
                     }
                     break;
