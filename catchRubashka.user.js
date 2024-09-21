@@ -108,6 +108,8 @@ var wsHook = {};
     let id = 0;
     let infoDiv;
     let obnovas = 0;
+    let start = false;
+    let ws = null;
     //const notification = new Audio('https://www.mobilesringtones.com/static/p/ringtones/2018/02/01/16451/16451.mp3?title=16451_download_note_iphone_notification_ringtone_apple_sms_ringtones.mp3');
     window.addEventListener("load", () => {
         window.onerror = null;
@@ -122,24 +124,25 @@ var wsHook = {};
     });
 
     wsHook.after = function (messageEvent, url, wsObject) {
-        const ws = wsObject;
+        if (!ws) {
+            ws = wsObject;
+            console.log("got ws object");
+        }
         let packets = messageEvent.data.split("\x1E");
         packets.pop();
         for (const packet of packets) {
             let data = JSON.parse(packet);
+            console.log("received data", data);
             switch (data.target) {
                 case "updateUserData": {
                     id = data.arguments[0].Id;
                     break;
                 }
                 case "FillShopTab": {
-                    if (caught) {
-                        infoDiv.innerText = `Обновлении магазина: ${obnovas}
-                            Рубашка возможно поймана`;
+                    if (caught)
                         break;
-                    }
                     const shopItems = data.arguments[0];
-                    //console.log(shopItems);
+                    console.log(shopItems);
                     for (const shopItem of shopItems) {
                         if (shopItem.Type == 2 && (shopItem.price_joker == 1200 || shopItem.price_joker == 1400) && id == 5000000000096247) {
                             const packetToSend = {
@@ -149,30 +152,41 @@ var wsHook = {};
                                 type: 1
                             }
                             ws.send(JSON.stringify(packetToSend) + "");
-                            caught = true;
                         }
                     }
-                    if (!caught) {
-                        setTimeout(() => {
-                            const packetToSend = {
-                                "arguments": [
-                                    "ShopGenericTab"
-                                ],
-                                "invocationId": "10",
-                                "target": "loadShop",
-                                "type": 1
-                            }
-                            ws.send(JSON.stringify(packetToSend) + "");
-                            obnovas++;
-                            infoDiv.innerText = `Обновлении магазина: ${obnovas}
-                            Рубашка ${caught ? "" : "не"} поймана`;
-                        }, 1e3);
-                        //console.log("No rubashka");
-                    }
+                    obnovas++;
+                    start = true;
+                    //console.log("No rubashka");
                     break;
                 }
+                case "openBuyWindow":
+                    return;
+                case "stickyResponse":
+                    console.log("stickyResponse", data.arguments[0])
+                    if (data.arguments[0].isOk) {
+                        caught = true;
+                        infoDiv.innerText = `Обновлении магазина: ${obnovas}
+                            Рубашка возможно поймана`;
+                    }
+                    break;
             }
         }
         return messageEvent;
     }
+
+    setInterval(() => {
+        if (!start || caught)
+            return;
+        const packetToSend = {
+            "arguments": [
+                "0"
+            ],
+            "invocationId": obnovas.toString(),
+            "target": "buyTovar",
+            "type": 1
+        }
+        ws.send(JSON.stringify(packetToSend) + "");
+        infoDiv.innerText = `Обновлении магазина: ${obnovas}
+            Рубашка ${caught ? "" : "не"} поймана`;
+    }, 500);
 })();
