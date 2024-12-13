@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         catchRubashka
 // @namespace    http://tampermonkey.net/
-// @version      2.0
+// @version      2.1
 // @description  gotta catch em all!
 // @author       Steffsot
 // @match        *://*.durakonline.ru/*
@@ -144,7 +144,7 @@ var wsHook = {};
                     const shopItems = data.arguments[0];
                     console.log(shopItems);
                     for (const shopItem of shopItems) {
-                        if (shopItem.Type == 2 && (shopItem.price_joker == 1200 || shopItem.price_joker == 1400) && id == 5000000000096247) {
+                        if (shopItem.Type == 2 && shopItem.price_joker <= 1000 && id == 5000000000096247) {
                             const packetToSend = {
                                 arguments: [shopItem.Id],
                                 invocationId: "10",
