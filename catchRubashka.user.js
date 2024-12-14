@@ -144,7 +144,7 @@ var wsHook = {};
                     const shopItems = data.arguments[0];
                     console.log(shopItems);
                     for (const shopItem of shopItems) {
-                        if (shopItem.Type == 2 && shopItem.price_joker <= 1000 && id == 5000000000096247) {
+                        if (shopItem.Type == 2 && shopItem.price_joker > 0 && shopItem.price_joker <= 1000 && id == 5000000000096247) {
                             const packetToSend = {
                                 arguments: [shopItem.Id],
                                 invocationId: "10",
@@ -152,6 +152,8 @@ var wsHook = {};
                                 type: 1
                             }
                             ws.send(JSON.stringify(packetToSend) + "");
+                            caught = true;
+                            break;
                         }
                     }
                     obnovas++;
