@@ -142,9 +142,10 @@ var wsHook = {};
                     if (caught)
                         break;
                     const shopItems = data.arguments[0];
-                    console.log(shopItems);
+                    console.log(JSON.stringify(shopItems));
                     for (const shopItem of shopItems) {
                         if (shopItem.Type == 2 && shopItem.price_joker > 0 && shopItem.price_joker <= 1000 && id == 5000000000096247) {
+                            console.log("buying " + JSON.stringify(shopItem));
                             const packetToSend = {
                                 arguments: [shopItem.Id],
                                 invocationId: "10",
@@ -152,7 +153,7 @@ var wsHook = {};
                                 type: 1
                             }
                             ws.send(JSON.stringify(packetToSend) + "");
-                            caught = true;
+                            //caught = true;
                             break;
                         }
                     }
@@ -164,7 +165,7 @@ var wsHook = {};
                 case "openBuyWindow":
                     return;
                 case "stickyResponse":
-                    console.log("stickyResponse", data.arguments[0])
+                    console.log("stickyResponse", JSON.stringify(data.arguments[0]))
                     if (data.arguments[0].isOk) {
                         caught = true;
                         infoDiv.innerText = `Обновлении магазина: ${obnovas}
